@@ -1,5 +1,0 @@
-Name: ['test2', 'test2'] 
-Location: test2
-Programs Needed: None
-Printers: None
-Additional Notes: test2

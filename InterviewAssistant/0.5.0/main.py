@@ -74,7 +74,7 @@ def runProgram():
 
 #
 def formatData(fullName, answers):
-    return "Name: %s \nLocation: %s\nPrograms Needed: %s\nPrinters: %s\nAdditional Notes: %s" % (fullName, answers["Location"], answers["Programs"], answers["Printers"], answers["Notes"])
+    return "Name: %s \n\nLocation: %s\n\nPrograms Needed: %s\n\nPrinters: %s\n\nAdditional Notes:\n-----------------\n%s" % (fullName, answers["Location"], answers["Programs"], answers["Printers"], answers["Notes"])
 
 # main function, currently building the prompt in here.
 def main():
