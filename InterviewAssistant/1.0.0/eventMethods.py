@@ -1,3 +1,5 @@
+from tkinter import *
+
 def leftClick(event):
     print("Left")
 
