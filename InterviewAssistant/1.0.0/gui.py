@@ -5,7 +5,7 @@ from QuestionForm import *
 root = Tk()
 
 
-b = QuestionForm(root, "Interview Assistant v1.0.0")
+b = QuestionForm(root, "INTERVIEW ASSISTANT v1.0.0")
 
 # displays main window
 root.mainloop()

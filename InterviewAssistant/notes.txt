@@ -1,3 +1,11 @@
 Possible Question:
 "Do you transfer Data w/ JDE?"
 	-> This is because the JDE webapp might be good enough for some users.
+
+
+
+
+
+Annoying thing:
+
+Use have to hit 'Ctrl+Tab' to quickly navigate to the next field.......
