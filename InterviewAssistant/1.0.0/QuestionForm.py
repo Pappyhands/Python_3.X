@@ -18,7 +18,7 @@ class QuestionForm:
         header.pack(fill=X)
 
         # error message
-        error = Label(root, textvariable=error_msg, bg="black", fg="white", width=28)
+        error = Label(root, textvariable=error_msg, bg="black", fg="red", width=28)
         error.pack(fill=X)
 
         # creates 'frame' to seperate the title from questions
@@ -28,6 +28,8 @@ class QuestionForm:
         ########################################
         ########################################
         ########################################
+
+        #--------------------------------------------
 
         # First Name Label
         Label(frame, text="First Name: ").grid(row=0, column=0, sticky=E)
@@ -47,12 +49,23 @@ class QuestionForm:
 
         #--------------------------------------------
 
+        Label(frame, text="Other: ").grid(row=3, column=0, sticky=E)
+        # Other Location Entry
+        other_location_entry = Text(frame, height=1, width=25, bg='light grey', state=DISABLED)
+        other_location_entry.grid(row=3, column=2)
+
+        def otherCheck(location):
+            if location == "Other":
+                other_location_entry.config(bg='white')
+                other_location_entry.config(state=NORMAL)
+            else:
+                other_location_entry.config(bg='light grey')
+                other_location_entry.config(state=DISABLED)
+
+        #--------------------------------------------
+
         # Location Label
         Label(frame, text="Location: ").grid(row=2, column=0, sticky=E)
-        # # Location Entry
-        # location_entry = Menu(frame)
-        # location_entry.grid(row=1, column=1)
-
         location_var = StringVar(root)
 
         location_choices = [  'Main Office',
@@ -68,17 +81,31 @@ class QuestionForm:
 
         location_choices.sort()
 
-        location_menu = OptionMenu(frame, location_var, *location_choices)
+        location_menu = OptionMenu(frame, location_var, *location_choices, command=otherCheck)
+
+        location_menu.config(bg = "LIGHT GREY")
         location_var.set('Main Office') # set the default option
         location_menu.grid(row = 2, column =2, sticky="ew")
+        location_menu.update()
 
-        # on change dropdown value
-        def changeDropdown(*args):
-            print( location_var.get() )
+        #--------------------------------------------
+
+        def checkLocation():
+            if location_var.get() == 'Other':
+                if len(other_location_entry.get("1.0", "end-1c")) < 1:
+                    error_msg.set("*ERROR: Location Required!*")
+                    return False
+                else:
+                    error_msg.set("")
+                    return True
+            else:
+                error_msg.set("")
+                return True
+
         #--------------------------------------------
 
         # would like to look into cleaning these conditional IF statements up
-        def checkLocation(location):
+        def getLocation(location):
             if location == 'Main Office':
                 return 'MO'
             elif location == 'Bay State':
@@ -98,7 +125,9 @@ class QuestionForm:
             elif location == 'Pioneer':
                 return 'PIO'
             elif location == 'Other':
-                return 'OTH'
+                return other_location_entry.get("1.0", "end-1c")
+
+        #--------------------------------------------
 
         def checkName():
             if len(first_name_entry.get("1.0", "end-1c")) < 1:
@@ -111,46 +140,34 @@ class QuestionForm:
                 error_msg.set("")
                 return True
 
+        #--------------------------------------------
+
         # THIS IS WHERE THE MAGIC HAPPENS
         def submitData(self):
             fileName = ""
-            if checkName():
+            NAME = ""
+            LOCATION = ""
+
+            if checkName() and checkLocation():
                 NAME = last_name_entry.get("1.0", "end-1c")
                 LOCATION = location_var.get()
-
-                fileName += checkLocation(LOCATION)
+                fileName += getLocation(LOCATION)
                 temp = NAME.split(" ")
                 fileName += "_" + temp[0]
+
                 print(fileName)
 
-
-
-
-        # # question 1
-        # question_1 = Label(frame, text="question 1: ")
-        # question_1.grid(row=2, column=0, sticky=E)
-        #
-        # entry_1 = Text(frame, height=2, width=30)
-        # entry_1.grid(row=2, column=1)
-        #
-
-        # # question 2
-        # question_2 = Label(frame, text="question 2: ")
-        # question_2.grid(row=3, column=0, sticky=E)
-        #
-        # entry_2 = Text(frame, height=2, width=30)
-        # entry_2.grid(row=3, column=1)
+        #--------------------------------------------
 
         # COMMENTED THIS OUT FOR NOW (12-15-17)
         # check box test
         # checkBox = Checkbutton(frame, text="Check this?").grid(columnspan=2)
 
+        #--------------------------------------------
+
         # submit Button
         submit = Button(root, text="Submit", fg="black")
-        submit.pack(side = BOTTOM)
+        submit.pack(side = BOTTOM, padx=20, pady=20)
         submit.bind("<Button-1>", submitData)
 
-        tab_order = (first_name_entry, last_name_entry, location_menu)
-
-        for widget in tab_order:
-            widget.lower()
+        #--------------------------------------------
