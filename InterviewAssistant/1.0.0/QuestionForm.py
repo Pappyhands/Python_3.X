@@ -1,6 +1,5 @@
 from tkinter import *
 from os.path import *
-from time import sleep
 
 class QuestionForm:
 
