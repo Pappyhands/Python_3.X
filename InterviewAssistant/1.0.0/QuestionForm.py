@@ -72,6 +72,18 @@ class QuestionForm:
 
         #--------------------------------------------
 
+        def checkLocation():
+            if location_var.get() == 'Other':
+                if len(other_location_entry.get("1.0", "end-1c")) < 1:
+                    error_msg.set("*ERROR: Location Required!*")
+                    return False
+                else:
+                    error_msg.set("")
+                    return True
+            else:
+                error_msg.set("")
+                return True
+
         # OUT OF ORDER ON PURPOSE, SEE ABOVE COMMENT
         # Location Label
         Label(frame, text="Location: ").grid(row=5, column=0, sticky=E)
@@ -143,6 +155,7 @@ class QuestionForm:
             with open(fullPath, "w+") as text_file:
                 text_file.write(data)
 
+            error.config(fg="blue")
             error_msg.set("*SUCCESS: Text File Created.*")
 
 
@@ -161,7 +174,7 @@ class QuestionForm:
                 fileName += "_" + temp[0]
 
                 # print(fileName)
-            data = "NAME:\n-----------------\n%s %s\n\nLOCATION:\n-----------------\n%s\n\nAPPLICATIONS:\n-----------------\n%s\n\nADMIN USER(S):\n-----------------\n%s\n\nPRINTER(S):\n-----------------\n%s\n\nNOTES:\n-----------------\n%s" % (first_name_entry.get("1.0", "end-1c"), last_name_entry.get("1.0", "end-1c"), LOCATION, apps_entry.get("1.0", "end-1c"), admins_entry.get("1.0", "end-1c"), printers_entry.get("1.0", "end-1c"), notes_entry.get("1.0", "end-1c"))
+            data = "NAME:\n-----------------\n%s %s\n\n\nLOCATION:\n-----------------\n%s\n\n\nAPPLICATIONS:\n-----------------\n%s\n\n\nADMIN USER(S):\n-----------------\n%s\n\n\nPRINTER(S):\n-----------------\n%s\n\n\nNOTES:\n-----------------\n%s" % (first_name_entry.get("1.0", "end-1c"), last_name_entry.get("1.0", "end-1c"), LOCATION, apps_entry.get("1.0", "end-1c"), admins_entry.get("1.0", "end-1c"), printers_entry.get("1.0", "end-1c"), notes_entry.get("1.0", "end-1c"))
 
             saveFile(fileName, data)
 
@@ -176,17 +189,7 @@ class QuestionForm:
         #Test
 
         #--------------------------------------------
-        def checkLocation():
-            if location_var.get() == 'Other':
-                if len(other_location_entry.get("1.0", "end-1c")) < 1:
-                    error_msg.set("*ERROR: Location Required!*")
-                    return False
-                else:
-                    error_msg.set("")
-                    return True
-            else:
-                error_msg.set("")
-                return True
+
 
         #--------------------------------------------
 
@@ -217,9 +220,11 @@ class QuestionForm:
 
         def checkName():
             if len(first_name_entry.get("1.0", "end-1c")) < 1:
+                error.config(fg="red")
                 error_msg.set("*ERROR: First Name Required!*")
                 return False
             elif len(last_name_entry.get("1.0", "end-1c")) < 1:
+                error.config(fg="red")
                 error_msg.set("*ERROR: Last Name Required!*")
                 return False
             else:
