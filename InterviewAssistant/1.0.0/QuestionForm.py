@@ -9,7 +9,7 @@ class QuestionForm:
         error_msg = StringVar()
         # error_msg.set('')
 
-        root.geometry("400x800")
+        root.geometry("550x700")
 
         data = [] # define this, was thinking about using it as a means to organzie information
 
@@ -31,29 +31,33 @@ class QuestionForm:
 
         #--------------------------------------------
 
+        Label(frame).grid(row=0, column=0)
+
         # First Name Label
-        Label(frame, text="First Name: ").grid(row=0, column=0, sticky=E)
+        Label(frame, text="First Name: ").grid(row=1, column=0, sticky=E)
         # First Name Entry
         first_name_entry = Text(frame, height=1, width=25)
-        first_name_entry.grid(row=0, column=2)
+        first_name_entry.grid(row=1, column=1)
         first_name_entry.focus_set()
+
+        Label(frame).grid(row=2, column=0)
 
         #--------------------------------------------
 
         # Last Name Label
-        Label(frame, text="Last Name: ").grid(row=1, column=0, sticky=E)
+        Label(frame, text="Last Name: ").grid(row=3, column=0, sticky=E)
         # Last Name Entry
         last_name_entry = Text(frame, height=1, width=25)
-        last_name_entry.grid(row=1, column=2)
-        last_name_entry.focus_set()
+        last_name_entry.grid(row=3, column=1)
+
+        Label(frame).grid(row=4, column=0)
 
         #--------------------------------------------
 
-        Label(frame, text="Other: ").grid(row=3, column=0, sticky=E)
+        Label(frame, text="Other: ").grid(row=6, column=0, sticky=E)
         # Other Location Entry
         other_location_entry = Text(frame, height=1, width=25, bg='light grey', state=DISABLED)
-        other_location_entry.grid(row=3, column=2)
-
+        other_location_entry.grid(row=6, column=1)
         def otherCheck(location):
             if location == "Other":
                 other_location_entry.config(bg='white')
@@ -65,19 +69,19 @@ class QuestionForm:
         #--------------------------------------------
 
         # Location Label
-        Label(frame, text="Location: ").grid(row=2, column=0, sticky=E)
+        Label(frame, text="Location: ").grid(row=5, column=0, sticky=E)
         location_var = StringVar(root)
 
-        location_choices = [  'Main Office',
-                                'Bay State',
-                                 'Wahconah',
-                             'Byron Weston',
-                                      'CTC',
-                          'Human Resources',
+        location_choices = ['Main Office',
+                            'Bay State',
+                            'Wahconah',
+                            'Byron Weston',
+                            'CTC',
+                            'Human Resources',
                             'Old Berkshire',
-                           'Transportation',
-                                  'Pioneer',
-                                    'Other' ]
+                            'Transportation',
+                            'Pioneer',
+                            'Other']
 
         location_choices.sort()
 
@@ -85,8 +89,85 @@ class QuestionForm:
 
         location_menu.config(bg = "LIGHT GREY")
         location_var.set('Main Office') # set the default option
-        location_menu.grid(row = 2, column =2, sticky="ew")
+        location_menu.grid(row =5, column =1, sticky="ew")
         location_menu.update()
+
+
+
+        # THIS IS WHERE THE MAGIC HAPPENS
+        def submitData(self):
+            fileName = ""
+            NAME = ""
+            LOCATION = ""
+
+            if checkName() and checkLocation():
+                NAME = last_name_entry.get("1.0", "end-1c")
+                LOCATION = location_var.get()
+                fileName += getLocation(LOCATION)
+                temp = NAME.split(" ")
+                fileName += "_" + temp[0]
+
+                print(fileName)
+
+        #--------------------------------------------
+        Label(frame).grid(row=7, column=0)
+
+        # COMMENTED THIS OUT FOR NOW (12-15-17)
+        # check box test
+        Label(frame, text="Applications: ").grid(row=8, column=1)
+
+        # ROW 1
+        jde_checkBox = Checkbutton(frame, text="JD Edwards").grid(row=9, column=1, sticky="w")
+        pa_checkBox = Checkbutton(frame, text="Plant Apps").grid(row=9, column=2, sticky="w")
+
+        # ROW 2
+        hist_checkBox = Checkbutton(frame, text="Historian").grid(row=10, column=1, sticky="w")
+        APP2_checkBox = Checkbutton(frame, text="PLACEHOLDER").grid(row=10, column=2, sticky="w")
+
+        # ROW 3
+        APP3_checkBox = Checkbutton(frame, text="PLACEHOLDER").grid(row=11, column=1, sticky="w")
+        APP4_checkBox = Checkbutton(frame, text="PLACEHOLDER").grid(row=11, column=2, sticky="w")
+
+        # ROW 4
+        APP5_checkBox = Checkbutton(frame, text="PLACEHOLDER").grid(row=12, column=1, sticky="w")
+        APP6_checkBox = Checkbutton(frame, text="PLACEHOLDER").grid(row=12, column=2, sticky="w")
+
+        # ROW 5
+        APP7_checkBox = Checkbutton(frame, text="PLACEHOLDER").grid(row=13, column=1, sticky="w")
+        APP8_checkBox = Checkbutton(frame, text="PLACEHOLDER").grid(row=13, column=2, sticky="w")
+
+        Label(frame).grid(row=14, column=0)
+        #--------------------------------------------
+        # Computer Admin(s) Label
+        Label(frame, text="Admin User(s): ").grid(row=15, column=0, sticky=E)
+        # Computer Admins(s) Entry
+        admins_entry = Text(frame, height=3, width=40)
+        admins_entry.grid(row=15, column=1)
+        Label(frame).grid(row=16, column=0)
+
+
+        #--------------------------------------------
+        # Printer(s) Label
+        Label(frame, text="Printer(s): ").grid(row=17, column=0, sticky=E)
+        # Printer(s) Entry
+        printers_entry = Text(frame, height=3, width=40)
+        printers_entry.grid(row=17, column=1)
+        Label(frame).grid(row=18, column=0)
+
+        #--------------------------------------------
+
+        # Notes Label
+        Label(frame, text="Notes: ").grid(row=19, column=0, sticky=E)
+        # Notes Entry
+        notes_entry = Text(frame, height=5, width=40)
+        notes_entry.grid(row=19, column=1)
+
+        #--------------------------------------------
+
+        # submit Button
+        submit = Button(root, text="Submit", fg="black")
+        submit.pack(side = BOTTOM, padx=20, pady=20)
+        submit.bind("<Button-1>", submitData)
 
         #--------------------------------------------
 
@@ -139,35 +220,5 @@ class QuestionForm:
             else:
                 error_msg.set("")
                 return True
-
-        #--------------------------------------------
-
-        # THIS IS WHERE THE MAGIC HAPPENS
-        def submitData(self):
-            fileName = ""
-            NAME = ""
-            LOCATION = ""
-
-            if checkName() and checkLocation():
-                NAME = last_name_entry.get("1.0", "end-1c")
-                LOCATION = location_var.get()
-                fileName += getLocation(LOCATION)
-                temp = NAME.split(" ")
-                fileName += "_" + temp[0]
-
-                print(fileName)
-
-        #--------------------------------------------
-
-        # COMMENTED THIS OUT FOR NOW (12-15-17)
-        # check box test
-        # checkBox = Checkbutton(frame, text="Check this?").grid(columnspan=2)
-
-        #--------------------------------------------
-
-        # submit Button
-        submit = Button(root, text="Submit", fg="black")
-        submit.pack(side = BOTTOM, padx=20, pady=20)
-        submit.bind("<Button-1>", submitData)
 
         #--------------------------------------------
