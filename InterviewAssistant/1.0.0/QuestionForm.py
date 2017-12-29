@@ -161,7 +161,7 @@ class QuestionForm:
                 fileName += "_" + temp[0]
 
                 # print(fileName)
-            data = "NAME:\n-----------------\n %s %s \n\nLOCATION:\n-----------------\n %s\n\nAPPLICATIONS:\n-----------------\n %s\n\nADMIN USER(S):\n-----------------\n %s\n\nPRINTER(S):\n-----------------\n %s\n\nNOTES:\n-----------------\n%s" % (first_name_entry.get("1.0", "end-1c"), last_name_entry.get("1.0", "end-1c"), LOCATION, apps_entry.get("1.0", "end-1c"), admins_entry.get("1.0", "end-1c"), printers_entry.get("1.0", "end-1c"), notes_entry.get("1.0", "end-1c"))
+            data = "NAME:\n-----------------\n%s %s\n\nLOCATION:\n-----------------\n%s\n\nAPPLICATIONS:\n-----------------\n%s\n\nADMIN USER(S):\n-----------------\n%s\n\nPRINTER(S):\n-----------------\n%s\n\nNOTES:\n-----------------\n%s" % (first_name_entry.get("1.0", "end-1c"), last_name_entry.get("1.0", "end-1c"), LOCATION, apps_entry.get("1.0", "end-1c"), admins_entry.get("1.0", "end-1c"), printers_entry.get("1.0", "end-1c"), notes_entry.get("1.0", "end-1c"))
 
             saveFile(fileName, data)
 
