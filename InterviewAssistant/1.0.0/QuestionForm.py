@@ -1,5 +1,6 @@
 from tkinter import *
-import eventMethods
+from os.path import *
+from time import sleep
 
 class QuestionForm:
 
@@ -9,7 +10,7 @@ class QuestionForm:
         error_msg = StringVar()
         # error_msg.set('')
 
-        root.geometry("550x700")
+        root.geometry("700x800")
 
         data = [] # define this, was thinking about using it as a means to organzie information
 
@@ -52,12 +53,16 @@ class QuestionForm:
 
         Label(frame).grid(row=4, column=0)
 
+
+
+        # THIS IS OUT OF ORDER ON PURPOSE BECAUSE THE FUNCTION CALL ISN'T DESIGNED THE BEST
         #--------------------------------------------
 
         Label(frame, text="Other: ").grid(row=6, column=0, sticky=E)
         # Other Location Entry
         other_location_entry = Text(frame, height=1, width=25, bg='light grey', state=DISABLED)
         other_location_entry.grid(row=6, column=1)
+
         def otherCheck(location):
             if location == "Other":
                 other_location_entry.config(bg='white')
@@ -68,6 +73,7 @@ class QuestionForm:
 
         #--------------------------------------------
 
+        # OUT OF ORDER ON PURPOSE, SEE ABOVE COMMENT
         # Location Label
         Label(frame, text="Location: ").grid(row=5, column=0, sticky=E)
         location_var = StringVar(root)
@@ -92,51 +98,18 @@ class QuestionForm:
         location_menu.grid(row =5, column =1, sticky="ew")
         location_menu.update()
 
-
-
-        # THIS IS WHERE THE MAGIC HAPPENS
-        def submitData(self):
-            fileName = ""
-            NAME = ""
-            LOCATION = ""
-
-            if checkName() and checkLocation():
-                NAME = last_name_entry.get("1.0", "end-1c")
-                LOCATION = location_var.get()
-                fileName += getLocation(LOCATION)
-                temp = NAME.split(" ")
-                fileName += "_" + temp[0]
-
-                print(fileName)
-
         #--------------------------------------------
         Label(frame).grid(row=7, column=0)
 
-        # COMMENTED THIS OUT FOR NOW (12-15-17)
-        # check box test
-        Label(frame, text="Applications: ").grid(row=8, column=1)
+        # Applications  Label
+        Label(frame, text="Applications: ").grid(row=8, column=0)
 
-        # ROW 1
-        jde_checkBox = Checkbutton(frame, text="JD Edwards").grid(row=9, column=1, sticky="w")
-        pa_checkBox = Checkbutton(frame, text="Plant Apps").grid(row=9, column=2, sticky="w")
+        # Applications Entry
+        apps_entry = Text(frame, height=3, width=40)
+        apps_entry.grid(row=8, column=1)
+        Label(frame).grid(row=9, column=0)
 
-        # ROW 2
-        hist_checkBox = Checkbutton(frame, text="Historian").grid(row=10, column=1, sticky="w")
-        APP2_checkBox = Checkbutton(frame, text="PLACEHOLDER").grid(row=10, column=2, sticky="w")
 
-        # ROW 3
-        APP3_checkBox = Checkbutton(frame, text="PLACEHOLDER").grid(row=11, column=1, sticky="w")
-        APP4_checkBox = Checkbutton(frame, text="PLACEHOLDER").grid(row=11, column=2, sticky="w")
-
-        # ROW 4
-        APP5_checkBox = Checkbutton(frame, text="PLACEHOLDER").grid(row=12, column=1, sticky="w")
-        APP6_checkBox = Checkbutton(frame, text="PLACEHOLDER").grid(row=12, column=2, sticky="w")
-
-        # ROW 5
-        APP7_checkBox = Checkbutton(frame, text="PLACEHOLDER").grid(row=13, column=1, sticky="w")
-        APP8_checkBox = Checkbutton(frame, text="PLACEHOLDER").grid(row=13, column=2, sticky="w")
-
-        Label(frame).grid(row=14, column=0)
         #--------------------------------------------
         # Computer Admin(s) Label
         Label(frame, text="Admin User(s): ").grid(row=15, column=0, sticky=E)
@@ -162,6 +135,39 @@ class QuestionForm:
         notes_entry = Text(frame, height=5, width=40)
         notes_entry.grid(row=19, column=1)
 
+
+        #--------------------------------------------
+        def saveFile(fileName, data):
+            # this is saving all output files to the 'output' directory within the program
+            fullPath = join('output/', fileName + ".txt")
+            # 'w+' implements the creation of a new file (ie. You are WRITING to a NEW file)
+            with open(fullPath, "w+") as text_file:
+                text_file.write(data)
+
+            error_msg.set("*SUCCESS: Text File Created.*")
+
+
+        #--------------------------------------------
+        # THIS IS WHERE THE MAGIC HAPPENS
+        def submitData(self):
+            fileName = ""
+            # NAME = ""
+            # LOCATION = ""
+
+            if checkName() and checkLocation():
+                NAME = last_name_entry.get("1.0", "end-1c")
+                LOCATION = location_var.get()
+                fileName += getLocation(LOCATION)
+                temp = NAME.split(" ")
+                fileName += "_" + temp[0]
+
+                # print(fileName)
+            data = "Name: %s %s \n\nLocation: %s\n\nApplications: %s\n\nAdmin User(s): %s\n\nPrinter(s): %s\n\nNotes:\n-----------------\n%s" % (first_name_entry.get("1.0", "end-1c"), last_name_entry.get("1.0", "end-1c"), LOCATION, apps_entry.get("1.0", "end-1c"), admins_entry.get("1.0", "end-1c"), printers_entry.get("1.0", "end-1c"), notes_entry.get("1.0", "end-1c"))
+
+            saveFile(fileName, data)
+
+
+
         #--------------------------------------------
 
         # submit Button
@@ -169,8 +175,8 @@ class QuestionForm:
         submit.pack(side = BOTTOM, padx=20, pady=20)
         submit.bind("<Button-1>", submitData)
 
-        #--------------------------------------------
 
+        #--------------------------------------------
         def checkLocation():
             if location_var.get() == 'Other':
                 if len(other_location_entry.get("1.0", "end-1c")) < 1:
