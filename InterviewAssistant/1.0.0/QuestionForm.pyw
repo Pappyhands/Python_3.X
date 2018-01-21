@@ -9,7 +9,7 @@ class QuestionForm:
         error_msg = StringVar()
         # error_msg.set('')
 
-        root.geometry("700x800")
+        root.geometry("450x600")
 
         data = [] # define this, was thinking about using it as a means to organzie information
 
@@ -155,7 +155,7 @@ class QuestionForm:
             with open(fullPath, "w+") as text_file:
                 text_file.write(data)
 
-            error.config(fg="blue")
+            error.config(fg="green")
             error_msg.set("*SUCCESS: Text File Created.*")
 
 
