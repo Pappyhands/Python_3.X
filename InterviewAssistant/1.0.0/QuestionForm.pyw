@@ -9,7 +9,7 @@ class QuestionForm:
         error_msg = StringVar()
         # error_msg.set('')
 
-        root.geometry("450x600")
+        root.geometry("600x800")
 
         data = [] # define this, was thinking about using it as a means to organzie information
 
